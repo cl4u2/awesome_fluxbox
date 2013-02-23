@@ -111,6 +111,7 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
 
 -- CLA
+awful.util.gkrellm_mouse_enabled = true
 gkmatcher = function(c)
 	return awful.rules.match(c, { class = "Gkrellm" })
 end
@@ -166,31 +167,28 @@ toggle_gkrellm = function ()
 		else
 				hide_gkrellm(gkclient)
 		end
+		awful.util.gkrellm_mouse_enabled = true
 
 	end
-
-toggle_gkrellm_long = function ()
-		gktimer.timeout = 7
-		toggle_gkrellm()
-		gktimer.timeout = 0.1
-end
 
 gkrellm_mouse = function (c)
-	xy = mouse.coords()
-	if xy ~= nil and xy['x'] ~= nil then
-			mousex = xy['x']
-	else
-			mousex = 0
-	end
-	if xy ~= nil and xy['y'] ~= nil then
-			mousey = xy['y']
-	else
-			mousey = 0
-	end
-	if mousex > 1350 and mousey > 45 and mousey < 700 then
-			show_gkrellm()
-	elseif mousex <= 1285 or mousey <= 45 or mousey >= 700 then
-			hide_gkrellm(nil)
+	if awful.util.gkrellm_mouse_enabled then
+		xy = mouse.coords()
+		if xy ~= nil and xy['x'] ~= nil then
+				mousex = xy['x']
+		else
+				mousex = 0
+		end
+		if xy ~= nil and xy['y'] ~= nil then
+				mousey = xy['y']
+		else
+				mousey = 0
+		end
+		if mousex > 1350 and mousey > 45 and mousey < 700 then
+				show_gkrellm()
+		elseif mousex <= 1285 or mousey <= 45 or mousey >= 700 then
+				hide_gkrellm(nil)
+		end
 	end
 end
 
@@ -326,7 +324,6 @@ globalkeys = awful.util.table.join(
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
-    -- awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
@@ -421,8 +418,10 @@ clientkeys = awful.util.table.join(
 	-- 				awful.titlebar:add(c, { modkey = modkey }) 
 	-- 		end
 	-- 	end),
-    awful.key({ modkey,           }, "w", toggle_gkrellm_long),
-    awful.key({ modkey ,          }, "g", function() 
+    awful.key({ modkey,           }, "w", function(c) 
+			awful.util.gkrellm_mouse_enabled = (not awful.util.gkrellm_mouse_enabled) or false
+	end),
+    awful.key({ modkey ,          }, "g", function(c) 
 			awful.util.spawn_with_shell("killall gkrellm")
 			awful.util.spawn_with_shell("gkrellm -w")
 	end)
