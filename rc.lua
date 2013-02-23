@@ -421,7 +421,11 @@ clientkeys = awful.util.table.join(
 	-- 				awful.titlebar:add(c, { modkey = modkey }) 
 	-- 		end
 	-- 	end),
-    awful.key({ modkey,           }, "w", toggle_gkrellm_long)
+    awful.key({ modkey,           }, "w", toggle_gkrellm_long),
+    awful.key({ modkey ,          }, "g", function() 
+			awful.util.spawn_with_shell("killall gkrellm")
+			awful.util.spawn_with_shell("gkrellm -w")
+	end)
 )
 
 -- Compute the maximum number of digit we need, limited to 9
