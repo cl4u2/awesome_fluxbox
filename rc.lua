@@ -85,7 +85,7 @@ end
 -- Define a tag table which hold all screen tags.
 tags = {
 	names = { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
-	layout = { awful.layout.suit.max, layouts[1], layouts[1], awful.layout.suit.floating, awful.layout.suit.floating, layouts[1], layouts[1], layouts[1], layouts[1] }
+	layout = { awful.layout.suit.max, layouts[1], layouts[1], layouts[1], awful.layout.suit.floating, awful.layout.suit.max, awful.layout.suit.floating, layouts[1], layouts[1], layouts[1] }
 }
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
@@ -422,8 +422,7 @@ clientkeys = awful.util.table.join(
 			awful.util.gkrellm_mouse_enabled = (not awful.util.gkrellm_mouse_enabled) or false
 	end),
     awful.key({ modkey ,          }, "g", function(c) 
-			awful.util.spawn_with_shell("killall gkrellm")
-			awful.util.spawn_with_shell("gkrellm -w")
+			awful.util.spawn_with_shell("killall gkrellm; sleep 2; gkrellm -w")
 	end)
 )
 
@@ -490,13 +489,13 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "Gimp" },
       properties = { floating = true, 
-	  				 tag = tags[1][5],
+	  				 tag = tags[1][7],
 					 switchtotag = true,
 			       } 
 	},
     { rule = { class = "Skype" },
       properties = { floating = true, 
-	  				 tag = tags[1][4],
+	  				 tag = tags[1][5],
 					 --switchtotag = true,
 					 -- x = 939,
 					 -- y = 20,
@@ -504,7 +503,7 @@ awful.rules.rules = {
 	},
     { rule = { class = "Pidgin" },
       properties = { floating = true, 
-	  				 tag = tags[1][4],
+	  				 tag = tags[1][5],
 					 --switchtotag = true,
 					 -- x = 503,
 					 -- y = 44
@@ -516,7 +515,7 @@ awful.rules.rules = {
 					 skip_taskbar = true, 
 					 focusable = false,
 					 x = 1267, 
-					 y = 30 
+					 y = 26 
 			       },
 	},
     { rule = { class = "Wicd-client.py" },
@@ -530,6 +529,8 @@ awful.rules.rules = {
       --properties = { tag = tags[1][2] } },
       properties = { tag = tags[1][1], switchtotag = true } },
     { rule = { class = "Thunderbird" },
+      properties = { tag = tags[1][1], switchtotag = true } },
+    { rule = { class = "chromium" },
       properties = { tag = tags[1][1], switchtotag = true } },
 }
 -- }}}
