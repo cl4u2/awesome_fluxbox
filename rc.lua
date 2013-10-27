@@ -47,6 +47,7 @@ terminal = "xterm -fg white -bg black"
 -- editor = os.getenv("EDITOR") or "nano"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
+ourscreen = 1
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -184,9 +185,15 @@ gkrellm_mouse = function (c)
 		else
 				mousey = 0
 		end
-		if mousex > 1350 and mousey > 45 and mousey < 700 then
+		if mousex > math.ceil(screen[ourscreen].geometry.width * 0.99) and 
+            mousey > math.ceil(screen[ourscreen].geometry.height * 0.06) and 
+            mousey < math.ceil(screen[ourscreen].geometry.height * 0.91) 
+        then
 				show_gkrellm()
-		elseif mousex <= 1285 or mousey <= 45 or mousey >= 700 then
+		elseif mousex <= math.ceil(screen[ourscreen].geometry.width * 0.94) or 
+            mousey <= math.ceil(screen[ourscreen].geometry.height * 0.06) or 
+            mousey >= math.ceil(screen[ourscreen].geometry.height * 0.91) 
+        then
 				hide_gkrellm(nil)
 		end
 	end
@@ -514,8 +521,8 @@ awful.rules.rules = {
 	  				 sticky = true, 
 					 skip_taskbar = true, 
 					 focusable = false,
-					 x = 1267, 
-					 y = 26 
+					 x = screen[ourscreen].geometry.width - 99, 
+					 y = math.floor(screen[ourscreen].geometry.height * 0.03),
 			       },
 	},
     { rule = { class = "Wicd-client.py" },
