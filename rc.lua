@@ -129,9 +129,13 @@ end
 show_gkrellm = function ()
 		--awful.client.run_or_raise("gkrellm", gkmatcher)
 		gkclient = find_gkclient()
+		currentscreen = mouse.screen
 		if gkclient then
 				gkclient.sticky = true
+				gkclient.x = screen[currentscreen].geometry.width - 99
+				gkclient.y = math.floor(screen[currentscreen].geometry.height * 0.03)
 				--gkclient:tags(tags[mouse.screen])
+				awful.client.movetoscreen(gkclient, currentscreen)
 				awful.client.movetotag(awful.tag.selected(), gkclient)
 				client.focus = gkclient
 				gkclient:raise()
@@ -185,14 +189,15 @@ gkrellm_mouse = function (c)
 		else
 				mousey = 0
 		end
-		if mousex > math.ceil(screen[ourscreen].geometry.width * 0.99) and 
-            mousey > math.ceil(screen[ourscreen].geometry.height * 0.06) and 
-            mousey < math.ceil(screen[ourscreen].geometry.height * 0.91) 
+		currentscreen = mouse.screen
+		if mousex > math.ceil(screen[currentscreen].geometry.width * 0.99) and 
+            mousey > math.ceil(screen[currentscreen].geometry.height * 0.06) and 
+            mousey < math.ceil(screen[currentscreen].geometry.height * 0.91) 
         then
 				show_gkrellm()
-		elseif mousex <= math.ceil(screen[ourscreen].geometry.width * 0.94) or 
-            mousey <= math.ceil(screen[ourscreen].geometry.height * 0.06) or 
-            mousey >= math.ceil(screen[ourscreen].geometry.height * 0.91) 
+		elseif mousex <= math.ceil(screen[currentscreen].geometry.width * 0.94) or
+            mousey <= math.ceil(screen[currentscreen].geometry.height * 0.06) or
+            mousey >= math.ceil(screen[currentscreen].geometry.height * 0.91)
         then
 				hide_gkrellm(nil)
 		end
