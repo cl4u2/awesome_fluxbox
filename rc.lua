@@ -140,7 +140,8 @@ show_gkrellm = function ()
 				client.focus = gkclient
 				gkclient:raise()
 		else
-				awful.util.spawn("gkrellm")
+				-- awful.util.spawn("gkrellm -w")
+				awful.util.spawn_with_shell("pgrep gkrellm || gkrellm -w")
 		end
 		if gktimer.started then
 				gktimer:stop()
@@ -434,7 +435,7 @@ clientkeys = awful.util.table.join(
 			awful.util.gkrellm_mouse_enabled = (not awful.util.gkrellm_mouse_enabled) or false
 	end),
     awful.key({ modkey ,          }, "g", function(c) 
-			awful.util.spawn_with_shell("killall gkrellm; sleep 2; gkrellm -w")
+			awful.util.spawn_with_shell("killall gkrellm && gkrellm -w")
 	end)
 )
 
@@ -626,6 +627,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 toggle_gkrellm()
-awful.util.spawn_with_shell("xscreensaver -no-splash")
-awful.util.spawn("wicd-gtk")
+awful.util.spawn_with_shell("pgrep xscreensaver || xscreensaver -no-splash")
+awful.util.spawn_with_shell("pgrep wicd-client || wicd-gtk")
+awful.util.spawn_with_shell("pgrep clipit || clipit")
 
