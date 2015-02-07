@@ -190,6 +190,24 @@ gkrellm_mouse = function (c)
 		else
 				mousey = 0
 		end
+        -- begin mousejail
+        -- try to bind the mouse movements
+        if mousex > 1000 
+        then 
+            newx = 1000
+        else
+            newx = mousex
+        end
+        if mousey > 500
+        then
+            newy = 500
+        else
+            newy = mousey
+        end
+        t = {x=newx, y=newy}
+        mouse.coords(t)
+        --end mousejail
+        
 		currentscreen = mouse.screen
 		if mousex > math.ceil(screen[currentscreen].geometry.width * 0.99) and 
             mousey > math.ceil(screen[currentscreen].geometry.height * 0.06) and 
