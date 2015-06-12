@@ -533,7 +533,7 @@ awful.rules.rules = {
 	},
     { rule = { class = "Wicd-client.py" },
       properties = { floating = true, 
-	  				 minimized = true,
+	  				 --minimized = true,
 					 skip_taskbar = true
 			       } 
 	},
