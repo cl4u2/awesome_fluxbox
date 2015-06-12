@@ -42,8 +42,8 @@ end
 beautiful.init("/home/clauz/.config/awesome/defaultcla0/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
--- terminal = "xterm"
-terminal = "xterm -fg white -bg black"
+terminal = "lxterminal"
+terminal2 = "xterm -fg white -bg black"
 -- editor = os.getenv("EDITOR") or "nano"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
@@ -363,7 +363,7 @@ globalkeys = awful.util.table.join(
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
-    awful.key({ modkey,           }, "t",      function () awful.util.spawn("lxterminal") end),
+    awful.key({ modkey,           }, "t",      function () awful.util.spawn(terminal2) end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
