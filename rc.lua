@@ -47,7 +47,9 @@ terminal2 = "xterm -fg white -bg black"
 -- editor = os.getenv("EDITOR") or "nano"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
-ourscreen = 1
+ourscreenindex = 1
+ourscreen = screen[ourscreenindex]
+ourscreenxoffset = 999999
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -129,15 +131,17 @@ end
 show_gkrellm = function ()
 		--awful.client.run_or_raise("gkrellm", gkmatcher)
 		gkclient = find_gkclient()
-		currentscreen = mouse.screen
+		--currentscreen = mouse.screen
+		currentscreen = ourscreen
+        currentscreenindex = ourscreenindex
 		if gkclient then
 				gkclient.sticky = true
-				gkclient.x = screen[currentscreen].geometry.width - 99
-				gkclient.y = math.floor(screen[currentscreen].geometry.height * 0.03)
+				gkclient.x = currentscreen.geometry.width - 99
+				gkclient.y = math.floor(currentscreen.geometry.height * 0.03)
 				--gkclient:tags(tags[mouse.screen])
-				awful.client.movetoscreen(gkclient, currentscreen)
+				awful.client.movetoscreen(gkclient, ourscreenindex)
 				awful.client.movetotag(awful.tag.selected(), gkclient)
-				client.focus = gkclient
+                client.focus = gkclient
 				gkclient:raise()
 		else
 				-- awful.util.spawn("gkrellm -w")
@@ -178,28 +182,38 @@ toggle_gkrellm = function ()
 	end
 
 gkrellm_mouse = function (c)
+	-- currentscreen = mouse.screen
+	xy = mouse.coords()
+	if xy ~= nil and xy['x'] ~= nil then
+			mousex = xy['x']
+	else
+			mousex = 0
+	end
+	if xy ~= nil and xy['y'] ~= nil then
+			mousey = xy['y']
+	else
+			mousey = 0
+	end
+    if screen[mouse.screen] == ourscreen then
+        ourscreenxoffset = math.min(ourscreenxoffset, mousex)
+        ourscreenyoffset = 0
+    end
 	if awful.util.gkrellm_mouse_enabled then
-		xy = mouse.coords()
-		if xy ~= nil and xy['x'] ~= nil then
-				mousex = xy['x']
-		else
-				mousex = 0
-		end
-		if xy ~= nil and xy['y'] ~= nil then
-				mousey = xy['y']
-		else
-				mousey = 0
-		end
-		currentscreen = mouse.screen
-		if mousex > math.ceil(screen[currentscreen].geometry.width * 0.99) and 
-            mousey > math.ceil(screen[currentscreen].geometry.height * 0.06) and 
-            mousey < math.ceil(screen[currentscreen].geometry.height * 0.91) 
+		currentscreen = ourscreen
+		if  screen[mouse.screen] == currentscreen and
+            mousex - ourscreenxoffset > math.ceil(currentscreen.geometry.width * 0.99) and 
+            mousey - ourscreenyoffset > math.ceil(currentscreen.geometry.height * 0.06) and 
+            mousey - ourscreenyoffset < math.ceil(currentscreen.geometry.height * 0.91) 
         then
+                --naughty.notify({text = "show " .. mousex .. " " .. mousey .. " " .. currentscreen.geometry.width .. "x" .. currentscreen.geometry.height .. " " .. ourscreenxoffset .. "x" .. ourscreenyoffset})
+                --naughty.notify({text = "show " .. mousex - ourscreenxoffset .. " " .. currentscreen.geometry.width * 0.99})
 				show_gkrellm()
-		elseif mousex <= math.ceil(screen[currentscreen].geometry.width * 0.94) or
-            mousey <= math.ceil(screen[currentscreen].geometry.height * 0.06) or
-            mousey >= math.ceil(screen[currentscreen].geometry.height * 0.91)
+		elseif screen[mouse.screen] ~= currentscreen or
+            mousex - ourscreenxoffset <= math.ceil(currentscreen.geometry.width * 0.94)  or
+            mousey - ourscreenyoffset <= math.ceil(currentscreen.geometry.height * 0.06) or
+            mousey - ourscreenyoffset >= math.ceil(currentscreen.geometry.height * 0.91)
         then
+                --naughty.notify({text = "hide"})
 				hide_gkrellm(nil)
 		end
 	end
@@ -433,6 +447,8 @@ clientkeys = awful.util.table.join(
 	-- 	end),
     awful.key({ modkey,           }, "w", function(c) 
 			awful.util.gkrellm_mouse_enabled = (not awful.util.gkrellm_mouse_enabled) or false
+            naughty.notify({text = awful.util.gkrellm_mouse_enabled})
+            ourscreenxoffset = 999999
 	end),
     awful.key({ modkey ,          }, "g", function(c) 
 			awful.util.spawn_with_shell("killall gkrellm && gkrellm -w")
@@ -527,8 +543,8 @@ awful.rules.rules = {
 	  				 sticky = true, 
 					 skip_taskbar = true, 
 					 focusable = false,
-					 x = screen[ourscreen].geometry.width - 99, 
-					 y = math.floor(screen[ourscreen].geometry.height * 0.03),
+					 x = ourscreen.geometry.width - 99, 
+					 y = math.floor(ourscreen.geometry.height * 0.03),
 			       },
 	},
     { rule = { class = "Wicd-client.py" },
