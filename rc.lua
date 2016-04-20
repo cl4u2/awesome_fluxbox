@@ -385,7 +385,7 @@ globalkeys = awful.util.table.join(
     --awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
 	--CLA
 	awful.key({ modkey },            "r",     function () 
-			awful.util.spawn_with_shell( "exe=`dmenu_path | dmenu_run -b -nf '#ff9900' -nb '#222222' -sf '#000000' -sb '#ff9900'` && exec $exe")
+			awful.util.spawn_with_shell( "exe=`dmenu_run -b -nf '#ff9900' -nb '#222222' -sf '#000000' -sb '#ff9900'` && exec $exe")
 	end),
 
     awful.key({ modkey }, "x",
