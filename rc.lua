@@ -85,8 +85,8 @@ end
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-	names = { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
-	layout = { awful.layout.suit.max, layouts[1], layouts[1], layouts[1], awful.layout.suit.floating, awful.layout.suit.max, awful.layout.suit.floating, layouts[1], layouts[1], layouts[1] }
+	names = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, "-", "="},
+	layout = { awful.layout.suit.max, layouts[1], layouts[1], layouts[1], awful.layout.suit.floating, awful.layout.suit.max, awful.layout.suit.floating, layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1] }
 }
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
@@ -471,6 +471,38 @@ for i = 1, keynumber do
                       end
                   end),
         awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
+                  function ()
+                      if client.focus and tags[client.focus.screen][i] then
+                          awful.client.toggletag(tags[client.focus.screen][i])
+                      end
+                  end))
+end
+
+newnames = {"0", "-", "="}
+for i = 10, 12 do
+    nn = newnames[i-9]
+    globalkeys = awful.util.table.join(globalkeys,
+        awful.key({ modkey }, nn,
+                  function ()
+                        local screen = mouse.screen
+                        if tags[screen][i] then
+                            awful.tag.viewonly(tags[screen][i])
+                        end
+                  end),
+        awful.key({ modkey, "Control" }, nn,
+                  function ()
+                      local screen = mouse.screen
+                      if tags[screen][i] then
+                          awful.tag.viewtoggle(tags[screen][i])
+                      end
+                  end),
+        awful.key({ modkey, "Shift" }, nn,
+                  function ()
+                      if client.focus and tags[client.focus.screen][i] then
+                          awful.client.movetotag(tags[client.focus.screen][i])
+                      end
+                  end),
+        awful.key({ modkey, "Control", "Shift" }, nn,
                   function ()
                       if client.focus and tags[client.focus.screen][i] then
                           awful.client.toggletag(tags[client.focus.screen][i])
