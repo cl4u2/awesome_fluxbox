@@ -533,7 +533,7 @@ awful.rules.rules = {
 	},
     { rule = { class = "Wicd-client.py" },
       properties = { floating = true, 
-	  				 minimized = true,
+	  				 -- minimized = true,
 					 skip_taskbar = true
 			       } 
 	},
@@ -628,6 +628,9 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 toggle_gkrellm()
 awful.util.spawn_with_shell("pgrep xscreensaver || xscreensaver -no-splash")
-awful.util.spawn_with_shell("pgrep wicd-client || wicd-gtk")
+awful.util.spawn_with_shell("pgrep wicd-client || wicd-gtk -t")
 awful.util.spawn_with_shell("pgrep clipit || clipit")
+awful.util.spawn_with_shell("xsetroot -solid black")
+awful.util.spawn_with_shell("xbindkeys")
+awful.util.spawn_with_shell("pgrep redshift || redshift-gtk")
 
