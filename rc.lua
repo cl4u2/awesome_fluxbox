@@ -665,4 +665,6 @@ awful.util.spawn_with_shell("pgrep clipit || clipit")
 awful.util.spawn_with_shell("xsetroot -solid black")
 awful.util.spawn_with_shell("xbindkeys")
 awful.util.spawn_with_shell("pgrep redshift || redshift-gtk")
+awful.util.spawn_with_shell("pgrep -a cbatticon | grep BAT0 || cbatticon -n BAT0")
+awful.util.spawn_with_shell("pgrep -a cbatticon | grep BAT1 || cbatticon -n BAT1")
 
