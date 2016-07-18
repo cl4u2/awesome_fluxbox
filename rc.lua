@@ -191,6 +191,20 @@ gkrellm_mouse = function (c)
 				mousey = 0
 		end
 		currentscreen = mouse.screen
+
+        -- in multiscreen the coordinates go OOB
+        if mousex > screen[currentscreen].geometry.width then
+            if currentscreen > 0 then
+                mousex = mousex - screen[currentscreen - 1].geometry.width
+            end
+        end
+        if mousey > screen[currentscreen].geometry.height then
+            if currentscreen > 0 then
+                mousey = mousey - screen[currentscreen - 1].geometry.height
+            end
+        end
+
+        -- show gkrellm iff close to screen border
 		if mousex > math.ceil(screen[currentscreen].geometry.width * 0.99) and 
             mousey > math.ceil(screen[currentscreen].geometry.height * 0.06) and 
             mousey < math.ceil(screen[currentscreen].geometry.height * 0.91) 
