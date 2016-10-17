@@ -86,7 +86,7 @@ end
 -- Define a tag table which hold all screen tags.
 tags = {
 	names = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, "-", "="},
-	layout = { awful.layout.suit.max, layouts[1], layouts[1], layouts[1], awful.layout.suit.floating, awful.layout.suit.max, awful.layout.suit.floating, layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1] }
+	layout = { awful.layout.suit.max, layouts[1], layouts[1], layouts[1], layouts[1], awful.layout.suit.max, awful.layout.suit.floating, layouts[1], layouts[1], layouts[1], layouts[1], layouts[1] }
 }
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
@@ -563,7 +563,7 @@ awful.rules.rules = {
 	},
     { rule = { class = "Skype" },
       properties = { floating = true, 
-	  				 tag = tags[1][5],
+	  				 tag = tags[1][7],
 					 --switchtotag = true,
 					 -- x = 939,
 					 -- y = 20,
@@ -571,7 +571,7 @@ awful.rules.rules = {
 	},
     { rule = { class = "Pidgin" },
       properties = { floating = true, 
-	  				 tag = tags[1][5],
+	  				 tag = tags[1][7],
 					 --switchtotag = true,
 					 -- x = 503,
 					 -- y = 44
