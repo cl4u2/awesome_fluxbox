@@ -192,6 +192,10 @@ gkrellm_mouse = function (c)
 		end
 		currentscreen = mouse.screen
 
+        -- naughty.notify({ preset = naughty.config.presets.critical,
+        --                  text= "x: " .. mousex .. " y: " .. mousey .. " screen: " .. currentscreen,
+        --                  title = "coords" })
+
         -- in multiscreen the coordinates go OOB
         if mousex > screen[currentscreen].geometry.width then
             if currentscreen > 1 then
