@@ -194,12 +194,16 @@ gkrellm_mouse = function (c)
 
         -- in multiscreen the coordinates go OOB
         if mousex > screen[currentscreen].geometry.width then
-            if currentscreen > 0 then
+            if currentscreen > 1 then
+                -- screen 2 is right of screen 1
                 mousex = mousex - screen[currentscreen - 1].geometry.width
-            end
+            else if currentscreen == 1 then
+                -- screen 2 is left of screen 1
+                mousex = mousex - screen[currentscreen + 1].geometry.width
+            end end
         end
         if mousey > screen[currentscreen].geometry.height then
-            if currentscreen > 0 then
+            if currentscreen > 1 then
                 mousey = mousey - screen[currentscreen - 1].geometry.height
             end
         end
