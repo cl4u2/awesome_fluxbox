@@ -403,7 +403,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey ,"Control" }, "i", function() awful.util.spawn_with_shell("/usr/bin/setxkbmap it") end),
     awful.key({ modkey ,"Control" }, "u", function() awful.util.spawn_with_shell("/usr/bin/setxkbmap us") end),
     awful.key({ modkey ,          }, "z", function() awful.util.spawn_with_shell("xscreensaver-command -lock") end),
-    awful.key({ modkey ,          }, "k", function() awful.util.spawn_with_shell("/usr/bin/xclip -i ~/.ssh/id_rsa.pub") end),
+    awful.key({ modkey ,          }, "s", function() awful.util.spawn_with_shell("/usr/bin/xclip -i ~/.ssh/id_rsa.pub") end),
     -- Prompt
     --awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
 	--CLA
