@@ -2,7 +2,7 @@
 -- Default awesome theme --
 ---------------------------
 
-theme = {}
+local theme = {}
 
 theme.font          = "sans 8"
 
@@ -11,6 +11,7 @@ theme.bg_normal     = "#222222"
 theme.bg_focus      = "#444444"
 theme.bg_urgent     = "#ff9900"
 theme.bg_minimize   = "#444444"
+theme.bg_systray    = theme.bg_normal
 
 --theme.fg_normal     = "#aaaaaa"
 theme.fg_normal     = "#ff9900"
@@ -19,15 +20,17 @@ theme.fg_focus      = "#ff9900"
 theme.fg_urgent     = "#000000"
 theme.fg_minimize   = "#ffffff"
 
+theme.useless_gap   = 0
 theme.border_width  = "1"
-theme.border_focus = "#ff9900"
-theme.border_normal  = "#535d6c"
+theme.border_normal = "#535d6c"
+theme.border_focus  = "#ff9900"
 theme.border_marked = "#91231c"
 
 -- There are other variable sets
 -- overriding the default one when
 -- defined, the sets are:
--- [taglist|tasklist]_[bg|fg]_[focus|urgent]
+-- taglist_[bg|fg]_[focus|urgent|occupied|empty]
+-- tasklist_[bg|fg]_[focus|urgent]
 -- titlebar_[bg|fg]_[normal|focus]
 -- tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
 -- mouse_finder_[color|timeout|animate_timeout|radius|factor]
@@ -44,8 +47,8 @@ theme.tasklist_floating_icon = "/home/clauz/.config/awesome/defaultcla0/tasklist
 -- menu_[bg|fg]_[normal|focus]
 -- menu_[border_color|border_width]
 theme.menu_submenu_icon = "/home/clauz/.config/awesome/defaultcla0/submenu.png"
-theme.menu_height = "15"
-theme.menu_width  = "100"
+theme.menu_height = 15
+theme.menu_width  = 100
 
 -- You can add as many variables as
 -- you wish and access them by using
@@ -55,6 +58,9 @@ theme.menu_width  = "100"
 -- Define the image to load
 theme.titlebar_close_button_normal = "/home/clauz/.config/awesome/defaultcla0/titlebar/close_normal.png"
 theme.titlebar_close_button_focus  = "/home/clauz/.config/awesome/defaultcla0/titlebar/close_focus.png"
+
+theme.titlebar_minimize_button_normal = "/home/clauz/.config/awesome/defaultcla0/titlebar/minimize_normal.png"
+theme.titlebar_minimize_button_focus  = "/home/clauz/.config/awesome/defaultcla0/titlebar/minimize_focus.png"
 
 theme.titlebar_ontop_button_normal_inactive = "/home/clauz/.config/awesome/defaultcla0/titlebar/ontop_normal_inactive.png"
 theme.titlebar_ontop_button_focus_inactive  = "/home/clauz/.config/awesome/defaultcla0/titlebar/ontop_focus_inactive.png"
@@ -77,7 +83,8 @@ theme.titlebar_maximized_button_normal_active = "/home/clauz/.config/awesome/def
 theme.titlebar_maximized_button_focus_active  = "/home/clauz/.config/awesome/defaultcla0/titlebar/maximized_focus_active.png"
 
 -- You can use your own command to set your wallpaper
---theme.wallpaper_cmd = { "awsetbg /home/clauz/.config/awesome/defaultcla0/background.png" }
+-- theme.wallpaper = "/usr/share/awesome/themes/default/background.png"
+-- theme.wallpaper_cmd = { "awsetbg /home/clauz/.config/awesome/defaultcla0/background.png" }
 
 -- You can use your own layout icons like this:
 theme.layout_fairh = "/home/clauz/.config/awesome/defaultcla0/layouts/fairhw.png"
@@ -92,8 +99,17 @@ theme.layout_tile = "/home/clauz/.config/awesome/defaultcla0/layouts/tilew.png"
 theme.layout_tiletop = "/home/clauz/.config/awesome/defaultcla0/layouts/tiletopw.png"
 theme.layout_spiral  = "/home/clauz/.config/awesome/defaultcla0/layouts/spiralw.png"
 theme.layout_dwindle = "/home/clauz/.config/awesome/defaultcla0/layouts/dwindlew.png"
+theme.layout_cornernw = "/home/clauz/.config/awesome/defaultcla0/layouts/cornernww.png"
+theme.layout_cornerne = "/home/clauz/.config/awesome/defaultcla0/layouts/cornernew.png"
+theme.layout_cornersw = "/home/clauz/.config/awesome/defaultcla0/layouts/cornersww.png"
+theme.layout_cornerse = "/home/clauz/.config/awesome/defaultcla0/layouts/cornersew.png"
 
 theme.awesome_icon = "/usr/share/awesome/icons/awesome16.png"
 
+-- Define the icon theme for application icons. If not set then the icons
+-- from /usr/share/icons and /usr/share/icons/hicolor will be used.
+theme.icon_theme = nil
+
 return theme
+
 -- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80
