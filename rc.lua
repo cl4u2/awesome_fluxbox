@@ -322,10 +322,8 @@ awful.screen.connect_for_each_screen(function(s)
                     awful.layout.suit.tile,
                     awful.layout.suit.max }
     }
-    for s = 1, screen.count() do
-        -- Each screen has its own tag table.
-        tags[s] = awful.tag(tags.names, s, tags.layout)
-    end
+    -- Each screen has its own tag table.
+    tags[s] = awful.tag(tags.names, s, tags.layout)
     -- }}}
 
     -- Create a promptbox for each screen
