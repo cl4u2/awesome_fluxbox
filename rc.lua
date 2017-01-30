@@ -310,17 +310,17 @@ awful.screen.connect_for_each_screen(function(s)
     tags = {
     	names = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, "-", "="},
     	layout = {  awful.layout.suit.max,
-                    awful.layout.layouts[1],
-                    awful.layout.layouts[1],
-                    awful.layout.layouts[1],
-                    awful.layout.layouts[1],
+                    awful.layout.suit.tile,
+                    awful.layout.suit.tile,
+                    awful.layout.suit.tile,
+                    awful.layout.suit.tile,
                     awful.layout.suit.max,
                     awful.layout.suit.floating,
-                    awful.layout.layouts[1],
-                    awful.layout.layouts[1],
-                    awful.layout.layouts[1],
-                    awful.layout.layouts[1],
-                    awful.layout.layouts[1] }
+                    awful.layout.suit.tile,
+                    awful.layout.suit.tile,
+                    awful.layout.suit.tile,
+                    awful.layout.suit.tile,
+                    awful.layout.suit.max }
     }
     for s = 1, screen.count() do
         -- Each screen has its own tag table.
