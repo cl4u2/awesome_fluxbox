@@ -129,16 +129,23 @@ end
 show_gkrellm = function ()
 		--awful.client.run_or_raise("gkrellm", gkmatcher)
 		gkclient = find_gkclient()
-		currentscreen = mouse.screen
+		currentscreen = awful.screen.focused().index
+        width = 0
+        for i = 1, currentscreen do
+            width = width + screen[i].geometry.width
+        end
 		if gkclient then
 				gkclient.sticky = true
 				--gkclient:tags(tags[mouse.screen])
 				awful.client.movetoscreen(gkclient, currentscreen)
-				gkclient.x = screen[currentscreen].geometry.width - 99
-				gkclient.y = math.floor(screen[currentscreen].geometry.height * 0.03)
+				gkclient.x = width - 99
+				gkclient.y = math.floor(awful.screen.focused().geometry.height * 0.03)
 				awful.client.movetotag(awful.tag.selected(), gkclient)
 				client.focus = gkclient
 				gkclient:raise()
+                -- naughty.notify({ preset = naughty.config.presets.critical,
+                --                  text= "currentscreen " .. currentscreen .. " width: " .. screen[currentscreen].geometry.width .. " height: " .. screen[currentscreen].geometry.height .. " x: " .. gkclient.x .. "y: " ..gkclient.y,
+                --                  title = "coords" })
 		else
 				-- awful.util.spawn("gkrellm -w")
 				awful.util.spawn_with_shell("pgrep gkrellm || gkrellm -w")
@@ -190,11 +197,11 @@ gkrellm_mouse = function (c)
 		else
 				mousey = 0
 		end
-		currentscreen = mouse.screen
+		currentscreen = awful.screen.focused().index
 
-        -- naughty.notify({ preset = naughty.config.presets.critical,
-        --                  text= "x: " .. mousex .. " y: " .. mousey .. " screen: " .. currentscreen .. " " .. screen[currentscreen].geometry.width .. "x" .. screen[currentscreen].geometry.height,
-        --                  title = "coords" })
+         -- naughty.notify({ preset = naughty.config.presets.critical,
+         --                  text= "x: " .. mousex .. " y: " .. mousey .. " screen: " .. currentscreen .. " " .. screen[currentscreen].geometry.width .. "x" .. screen[currentscreen].geometry.height,
+         --                  title = "coords" })
 
         -- in multiscreen the coordinates go OOB
         if mousex > screen[currentscreen].geometry.width then
@@ -401,8 +408,8 @@ globalkeys = awful.util.table.join(
         end,
         {description = "focus previous by index", group = "client"}
     ),
-    awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
-              {description = "show main menu", group = "awesome"}),
+    -- awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
+    --           {description = "show main menu", group = "awesome"}),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
@@ -782,6 +789,7 @@ client.connect_signal("mouse::enter", function(c)
     gkrellm_mouse(c)
 end)
 
+-- CLA
 client.connect_signal("mouse::leave", gkrellm_mouse)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
