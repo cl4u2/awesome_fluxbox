@@ -296,12 +296,16 @@ local tasklist_buttons = awful.util.table.join(
 local function set_wallpaper(s)
     -- Wallpaper
     if beautiful.wallpaper then
-        local wallpaper = beautiful.wallpaper
-        -- If wallpaper is a function, call it with the screen
-        if type(wallpaper) == "function" then
-            wallpaper = wallpaper(s)
+        if string.sub(beautiful.wallpaper, 1, 1) == "#" then
+            gears.wallpaper.set(beautiful.wallpaper)
+        else
+            local wallpaper = beautiful.wallpaper
+            -- If wallpaper is a function, call it with the screen
+            if type(wallpaper) == "function" then
+                wallpaper = wallpaper(s)
+            end
+            gears.wallpaper.maximized(wallpaper, s, true)
         end
-        gears.wallpaper.maximized(wallpaper, s, true)
     end
 end
 
@@ -890,7 +894,7 @@ toggle_gkrellm()
 awful.util.spawn_with_shell("pgrep xscreensaver || xscreensaver -no-splash")
 awful.util.spawn_with_shell("pgrep wicd-client || wicd-gtk -t")
 awful.util.spawn_with_shell("pgrep clipit || clipit")
-awful.util.spawn_with_shell("xsetroot -solid black")
+-- awful.util.spawn_with_shell("xsetroot -solid black")
 awful.util.spawn_with_shell("xbindkeys")
 awful.util.spawn_with_shell("pgrep redshift || redshift-gtk")
 -- awful.util.spawn_with_shell("pgrep -a cbatticon | grep BAT0 || cbatticon -n BAT0")

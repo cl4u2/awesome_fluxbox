@@ -85,6 +85,7 @@ theme.titlebar_maximized_button_focus_active  = "/home/clauz/.config/awesome/def
 -- You can use your own command to set your wallpaper
 -- theme.wallpaper = "/usr/share/awesome/themes/default/background.png"
 -- theme.wallpaper_cmd = { "awsetbg /home/clauz/.config/awesome/defaultcla0/background.png" }
+theme.wallpaper = "#000000"
 
 -- You can use your own layout icons like this:
 theme.layout_fairh = "/home/clauz/.config/awesome/defaultcla0/layouts/fairhw.png"
