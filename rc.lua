@@ -491,7 +491,9 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey ,"Control" }, "i", function() awful.util.spawn_with_shell("/usr/bin/setxkbmap it") end),
     awful.key({ modkey ,"Control" }, "u", function() awful.util.spawn_with_shell("/usr/bin/setxkbmap us") end),
     awful.key({ modkey ,          }, "z", function() awful.util.spawn_with_shell("xscreensaver-command -lock") end),
-    awful.key({ modkey ,          }, "s", function() awful.util.spawn_with_shell("/usr/bin/xclip -i ~/.ssh/id_rsa.pub") end)
+    awful.key({ modkey ,          }, "s", function() awful.util.spawn_with_shell("/usr/bin/xclip -i ~/.ssh/id_rsa.pub") end),
+    awful.key({ modkey ,          }, "v", function() awful.util.spawn_with_shell("~/bin/labvga.sh") end),
+    awful.key({ modkey ,"Shift"   }, "v", function() awful.util.spawn_with_shell("xrandr --output DP2 --off") end)
 )
 
 clientkeys = awful.util.table.join(
