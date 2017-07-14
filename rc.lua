@@ -385,6 +385,72 @@ root.buttons(awful.util.table.join(
 ))
 -- }}}
 
+-- Tags https://awesomewm.org/doc/api/classes/tag.html
+
+local function delete_tag()
+    local t = awful.screen.focused().selected_tag
+    if not t then return end
+    t:delete()
+end
+
+local function add_tag()
+    awful.tag.add("+", {
+        screen= awful.screen.focused(),
+        volatile = true,
+        layout = awful.layout.suit.tile
+    }):view_only()
+end
+
+local function rename_tag()
+    awful.prompt.run {
+        prompt       = "New tag name: ",
+        textbox      = awful.screen.focused().mypromptbox.widget,
+        exe_callback = function(new_name)
+            if not new_name or #new_name == 0 then return end
+
+            local t = awful.screen.focused().selected_tag
+            if t then
+                t.name = new_name
+            end
+        end
+    }
+end
+
+local function move_to_new_tag()
+    local c = client.focus
+    if not c then return end
+
+    local t = awful.tag.add(c.class,{screen= c.screen, volatile = true})
+    c:tags({t})
+    t:view_only()
+end
+
+local function copy_tag()
+    local t = awful.screen.focused().selected_tag
+    if not t then return end
+
+    local clients = t:clients()
+    local t2 = awful.tag.add(t.name .. "_", awful.tag.getdata(t), {volatile = true})
+    t2:clients(clients)
+    t2:view_only()
+end
+
+gapped = false
+
+local function add_gaps()
+    local t = awful.screen.focused().selected_tag
+    if not t then return end
+    if gapped then
+        t.gap = 0
+        gapped = false
+    else
+        t.gap = 5
+        gapped = true
+    end
+end
+
+
+
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
     -- awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
@@ -410,6 +476,20 @@ globalkeys = awful.util.table.join(
     ),
     -- awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
     --           {description = "show main menu", group = "awesome"}),
+
+    -- Tags https://awesomewm.org/doc/api/classes/tag.html
+    awful.key({ modkey,           }, "a", add_tag,
+              {description = "add a tag", group = "tag"}),
+    awful.key({ modkey, "Shift"   }, "a", delete_tag,
+              {description = "delete the current tag", group = "tag"}),
+    awful.key({ modkey, "Control"   }, "a", move_to_new_tag,
+              {description = "add a tag with the focused client", group = "tag"}),
+    awful.key({ modkey, "Mod1"   }, "a", copy_tag,
+              {description = "create a copy of the current tag", group = "tag"}),
+    awful.key({ modkey, "Shift"   }, "r", rename_tag,
+              {description = "rename the current tag", group = "tag"}),
+    awful.key({ modkey, "Shift"   }, "g", add_gaps,
+              {description = "add gaps", group = "tag"}),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
@@ -655,6 +735,7 @@ awful.rules.rules = {
                      keys = clientkeys,
                      buttons = clientbuttons,
                      screen = awful.screen.preferred,
+                     -- size_hints_honor = true,
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen
      }
     },
