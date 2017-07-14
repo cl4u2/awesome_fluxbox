@@ -677,6 +677,7 @@ awful.rules.rules = {
           "Gimp",
           "Skype",
           "Pidgin",
+          "Konversation",
           "xtightvncviewer"},
 
         name = {
@@ -701,6 +702,11 @@ awful.rules.rules = {
       properties = { floating = true, 
 	  				 -- minimized = true,
 					 skip_taskbar = true
+			       }
+	},
+    { rule = { class = "Skype", "Pidgin", "Konversation" },
+      properties = { floating = true, 
+                     tag = "7"
 			       } 
 	},
     -- Add titlebars to normal clients and dialogs
